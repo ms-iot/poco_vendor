@@ -11,8 +11,9 @@ if(NOT FORCE_BUILD_VENDOR_PKG)
   find_package(Poco "1.6.1" COMPONENTS Foundation QUIET)
 endif()
 
-
-if(NOT Poco_FOUND)
+if (CMAKE_SYSTEM_NAME STREQUAL "WindowsStore" AND NOT Poco_FOUND)
+    message(FATAL_ERROR "Windows Store (aka UWP) builds require vcpkg. It has not been found.")
+elseif(NOT Poco_FOUND)
   set(POCO_CXX_FLAGS ${CMAKE_CXX_FLAGS})
 
   # If Poco was not found, download and build from source
